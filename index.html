@@ -74,15 +74,17 @@
 
     <!-- Main container to enforce mobile view on all screen sizes -->
     <div id="game-container" 
-            class="bg-no-repeat bg-contain bg-center bg-blend-saturation  text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto" 
+            class="text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto" 
             style="
                 background-image: 
-                    linear-gradient(to top right, #06b6d4, #0369a1),
-                    url('Asset 3.png'); 
-                background-size: cover, contain; /* first layer = cover, second = contain */
+                    url('Asset 3.png'), 
+                    linear-gradient(to top right, #06b6d4, #0369a1);
+
+                background-size: contain, cover; /* first layer = cover, second = contain */
+                background-position: top, center;
                 background-repeat: no-repeat, no-repeat;
-                background-position: center, top;
             ">
+        
         <!-- Header with 75/25 split -->
         <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl  relative overflow-hidden">
             <div class="absolute inset-x-0 top-0 bg-black opacity-30"></div> <!-- This is the overlay for text readability -->
