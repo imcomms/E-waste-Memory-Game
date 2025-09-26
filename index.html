@@ -42,15 +42,14 @@
             opacity: 1; /* Keep matched cards fully visible */
         }
 
-        /* Styling for the animated background dots */
         #background-wrap {
-            position: absolute; /* Changed to absolute to stay within the container */
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            z-index: 0; /* Behind content but inside container */
+            z-index: 0;
         }
         .dot {
             position: absolute;
@@ -63,78 +62,95 @@
             50% { opacity: 0.8; }
             100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
         }
-        /* Ensure content is above the background dots */
         header, #bottom-section {
             position: relative;
             z-index: 1;
+        }
+
+        /* 2. Default background for mobile */
+        #game-container {
+            background-image: 
+                url('Asset 3.png'), 
+                linear-gradient(to top right, #06b6d4, #0369a1);
+            background-size: contain, cover; 
+            background-position: top, center;
+            background-repeat: no-repeat, no-repeat;
+        }
+
+        /* 2. Wider background for laptop/large screens (1024px and up) */
+        @media (min-width: 1024px) {
+            #game-container {
+                /* CUSTOMIZATION: Change the WIDE background image URL for large screens below */
+                background-image: 
+                    url('Asset 7.png'), 
+                    linear-gradient(to top right, #06b6d4, #0369a1);
+                background-position: top, center;
+            }
         }
     </style>
 </head>
 <body class="bg-white">
 
-    <!-- Main container to enforce mobile view on all screen sizes -->
+    <!-- Main container with responsive classes -->
     <div id="game-container" 
-            class="text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto" 
-            style="
-                background-image: 
-                    url('Asset 3.png'), 
-                    linear-gradient(to top right, #06b6d4, #0369a1);
+         class="text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto 
+                lg:max-w-full lg:h-screen lg:overflow-hidden lg:p-8 lg:justify-center">
 
-                background-size: contain, cover; /* first layer = cover, second = contain */
-                background-position: top, center;
-                background-repeat: no-repeat, no-repeat;
-            ">
-        
-        <!-- Header with 75/25 split -->
-        <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl  relative overflow-hidden">
-            <div class="absolute inset-x-0 top-0 bg-black opacity-30"></div> <!-- This is the overlay for text readability -->
-            <!-- Text Box (75%) -->
-            <div class="w-4/5 text-left">
-                <h1 class="text-4xl font-bold text-justify text-neutral-50">Match It Right!</h1>
-                <p class="text-neutral-50 mt-1 text-base break-normal">Play the E-Waste Memory Game! <p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match gadgets and discover why recycling them matters.</p>
-                <div class="grid grid-cols-2 grid-rows-1 gap-1">
-                    <p class="text-slate-950 font-bold mt-2 bg-neutral-50 w-4/5 text-center rounded-lg shadow-lg"><span class="font-bold text-slate-950" id="moves-counter">0</span> Moves</p>
-                    <p class="text-slate-950 font-bold mt-2 bg-neutral-50 w-full text-center rounded-lg shadow-lg"><span class="font-bold text-slate-950" id="matches-counter">0 / 10</span> Matches</p>
+        <!-- Header with responsive layout -->
+        <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl relative overflow-hidden
+                       lg:bg-transparent lg:shadow-none lg:py-0" 
+        >
+            <div class="absolute inset-x-0 top-0 bg-black opacity-30 lg:hidden"></div> <!-- Overlay for mobile header only -->
+            
+            <!-- 3. Text Box (75% on mobile, centered on large screens) -->
+            <div class="w-4/5 text-left relative lg:w-full lg:text-center">
+                <h1 class="text-4xl lg:text-5xl font-bold text-neutral-50">Match It Right!</h1>
+                <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">Play the E-Waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match gadgets and discover why recycling them matters.</p>
+                <div class="grid grid-cols-2 grid-rows-1 mt-1 flex flex-row items-start gap-1 lg:mt-3 lg:flex-row lg:inline-flex lg:gap-20">
+
+                    <p class="text-slate-950 font-bold lg:text-xl mt-2 bg-neutral-50 w-4/5 lg:w-full lg:px-4 text-center rounded-lg shadow-lg whitespace-nowrap"><span class="font-bold text-slate-950" id="moves-counter">0</span> Moves</p>
+                    <p class="text-slate-950 font-bold lg:text-xl mt-2 bg-neutral-50 w-full lg:px-4 text-center rounded-lg shadow-lg whitespace-nowrap"><span class="font-bold text-slate-950" id="matches-counter">0 / 10</span> Matches</p>
                 </div>
             </div>
-            <!-- Logo (25%) -->
-            <div class="w-1/5 flex justify-end">
-                <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain absolute top-0 right-0">
+            
+            <!-- 3. Logo (25% on mobile, top-right corner on large screens) -->
+            <div class="w-1/5 flex justify-end relative -top-10 -right-2 lg:absolute lg:-top-10 lg:right-10 lg:w-auto lg:p-4">
+                <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain lg:h-36 lg:w-36">
             </div>
         </header>
 
         <!-- Game section -->
         <div id="bottom-section" class="w-full flex-grow flex flex-col items-center justify-center">
             <div id="game-area" class="w-full flex flex-col items-center justify-center">
-                <!-- Game board now always 4 columns -->
-                <main id="game-board" class="w-full max-w-3xl grid grid-cols-4 gap-3"></main>
-                <button id="reset-button" class="mt-8 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                <!-- 1. Game board with 4 columns on mobile, 5 on large screens -->
+                <main id="game-board" class="lg:mt-4 w-full max-w-3xl lg:max-w-xl grid grid-cols-4 lg:grid-cols-5 gap-2"></main>
+                <button id="reset-button" class="mt-8 lg:mt-6 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
                     Reset Game
                 </button>
             </div>
 
             <!-- Win Screen -->
             <div id="win-screen" class="hidden w-full flex flex-col items-center justify-center text-center">
-                <img src="Asset 2.png" alt="Victory" class="w-3/4 max-w-sm mb-6 rounded-lg border-none">
-                <div class="bg-neutral-50 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 w-full">
-                    <h2 class="text-3xl font-bold text-slate-950 mb-6">🧩Well Done!🌍</h2>
-                    <p class="text-slate-950 mb-4">You've matched all the cards correctly.<p class = "text-slate-950 mb-4 break-normal">By learning the right way to recycle e-waste, you're helping to protect our environment and give old electronics a new life.🌱<p class = "text-slate-950 mb-5 break-normal">Remember: Use the right bins or collection services for your e-waste. Every small action make a big difference!</p>
+                <img src="Asset 6.png" alt="Victory" class="w-3/4 lg:h-3/4 lg:w-fit max-w-sm mb-4 lg:mb-0 rounded-lg border-none">
+                <div class="bg-neutral-50 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 lg:p-6 w-full lg:w-2/3">
+                    <h2 class="text-3xl font-bold text-slate-950 mb-4 lg:mb-2">🧩 Well Done! 🌍</h2>
+                    <p class="text-slate-950 mb-2">You've matched all the cards correctly!<p class = "text-slate-950 mb-2 break-normal">By learning the right way to recycle e-waste, you're helping to protect our environment and give old electronics a new life.🌱<p class = "text-slate-950 mb-2 break-normal">Remember: Use the right bins or collection services for your e-waste. Every small action make a big difference!</p>
                     <button id="play-again-button" class="bg-neutral-100 hover:bg-neutral-200 text-slate-950 font-bold py-2 px-6 rounded-lg shadow-lg">
                         Play Again
                     </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Pop-up Box for a successful match -->
-        <div id="match-modal" class="fixed inset-1 center bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
-            <div class="bg-neutral-50 rounded-lg shadow-2xl p-8 text-center max-w-md w-10/12 mx-4">
-                <img id="match-modal-image" src="" alt="Match Success" class="w-40 h-40 object-cover rounded-lg mx-auto mb-4">
-                <p id="match-modal-text" class="text-slate-950 mb-6 text-lg"></p>
-                <button id="next-match-button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg">
-                    Next
-                </button>
-            </div>
+    <!-- Pop-up Box for a successful match (remains unchanged) -->
+    <div id="match-modal" class="fixed inset-1 center bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+        <div class="bg-neutral-50 rounded-lg shadow-2xl p-8 text-center max-w-md w-10/12 mx-4">
+            <img id="match-modal-image" src="" alt="Match Success" class="w-40 h-40 object-cover rounded-lg mx-auto mb-4">
+            <p id="match-modal-text" class="text-slate-950 mb-6 text-lg"></p>
+            <button id="next-match-button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg">
+                Next
+            </button>
         </div>
     </div>
 
@@ -143,7 +159,7 @@
             const gameContainer = document.getElementById('game-container');
             const backgroundWrap = document.createElement('div');
             backgroundWrap.id = 'background-wrap';
-            gameContainer.prepend(backgroundWrap); // Prepend to game-container
+            gameContainer.prepend(backgroundWrap);
 
             const numDots = 50; 
             for (let i = 0; i < numDots; i++) {
@@ -162,10 +178,10 @@
 
             const gameArea = document.getElementById('game-area');
             const gameBoard = document.getElementById('game-board');
-            const matchModal = document.getElementById('match-modal');
             const resetButton = document.getElementById('reset-button');
             const winScreen = document.getElementById('win-screen');
             const playAgainButton = document.getElementById('play-again-button');
+            const matchModal = document.getElementById('match-modal');
             const matchModalImage = document.getElementById('match-modal-image');
             const matchModalText = document.getElementById('match-modal-text');
             const nextMatchButton = document.getElementById('next-match-button');
@@ -186,94 +202,96 @@
                 { 
                     value: '<img src="NEA_IEWD_Gamification-02.jpg" alt="bbb">', 
                     pairId: 'item2',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells). ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells).' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-02.jpg" alt="BBB">', 
                     pairId: 'item2',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells). ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells).' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="ccc">', 
                     pairId: 'item3',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment. ' }
+                    matchInfo: { image: 'DNEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="CCC">', 
                     pairId: 'item3',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-04.jpg" alt="ddd">', 
                     pairId: 'item4',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-04.jpg" alt="ddd">', 
                     pairId: 'item4',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-05.jpg" alt="eee">', 
                     pairId: 'item5',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-05.jpg" alt="EEE">', 
                     pairId: 'item5',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-06.jpg" alt="fff">', 
                     pairId: 'item6',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-06.jpg" alt="FFF">', 
                     pairId: 'item6',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-07.jpg" alt="ggg">', 
                     pairId: 'item7',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-07.jpg', text: 'Washing machines are full of recyclable metals such as steel and copper. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-07.jpg', text: 'Washing machines are full of recyclable metals such as steel and copper.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-07.jpg" alt="GGG">', 
                     pairId: 'item7',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-07.jpg', text: 'Washing machines are full of recyclable metals such as steel and copper. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-07.jpg', text: 'Washing machines are full of recyclable metals such as steel and copper.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-08.jpg" alt="hhh">', 
                     pairId: 'item8',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-08.jpg" alt="HHH">', 
                     pairId: 'item8',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-09.jpg" alt="iii">', 
                     pairId: 'item9',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-09.jpg" alt="III">', 
                     pairId: 'item9',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-10.jpg" alt="jjj">', 
                     pairId: 'item10',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-10.jpg" alt="JJJ">', 
                     pairId: 'item10',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed. ' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed.' }
                 },
             ];
+
+            // --- The rest of the JavaScript logic is unchanged ---
 
             let cardsArray = [...cardPairs];
             let firstCard = null;
@@ -302,7 +320,7 @@
                     card.innerHTML = `
                         <div class="card-inner">
                             <div class="card-back bg-green-700 hover:bg-green-800 transition-colors overflow-hidden">
-                                <img src="NEA_IEWD_Gamification.jpg" alt="Card Back" class="w-full h-full object-cover">
+                                <img src="NEA_IEWD_Gamification.jpg" class="w-full h-full object-cover">
                             </div>
                             <div class="card-front bg-sky-300 flex items-center justify-center p-1 rounded-md">
                                 ${cardData.value}
@@ -392,3 +410,4 @@
     </script>
 </body>
 </html>
+
