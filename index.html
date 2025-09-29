@@ -94,7 +94,7 @@
     <!-- Main container with responsive classes -->
     <div id="game-container" 
          class="text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto 
-                lg:max-w-full lg:h-screen lg:overflow-hidden lg:p-8 lg:justify-center">
+                    lg:max-w-full lg:h-screen lg:overflow-hidden lg:p-8 lg:justify-center">
 
         <!-- Header with responsive layout -->
         <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl relative overflow-hidden
@@ -131,7 +131,7 @@
 
             <!-- Win Screen -->
             <div id="win-screen" class="hidden w-full flex flex-col items-center justify-center text-center">
-                <img src="Asset 6.png" alt="Victory" class="w-3/4 lg:h-3/4 lg:w-fit max-w-sm mb-4 lg:mb-0 rounded-lg border-none">
+                <img src="D://MyBOX//Imcomms//Project//Card_matching_APP//Picture//Gamification Cards//Asset 6.png" alt="Victory" class="w-3/4 lg:h-3/4 lg:w-fit max-w-sm mb-4 lg:mb-0 rounded-lg border-none">
                 <div class="bg-neutral-50 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 lg:p-6 w-full lg:w-2/3">
                     <h2 class="text-3xl font-bold text-slate-950 mb-4 lg:mb-2">🧩 Well Done! 🌍</h2>
                     <p class="text-slate-950 mb-2">You've matched all the cards correctly!<p class = "text-slate-950 mb-2 break-normal">By learning the right way to recycle e-waste, you're helping to protect our environment and give old electronics a new life.🌱<p class = "text-slate-950 mb-2 break-normal">Remember: Use the right bins or collection services for your e-waste. Every small action make a big difference!</p>
@@ -150,6 +150,17 @@
             <p id="match-modal-text" class="text-slate-950 mb-6 text-lg"></p>
             <button id="next-match-button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg">
                 Next
+            </button>
+        </div>
+    </div>
+
+        <!-- 1. Pop-up Box for Starting the Game -->
+    <div id="start-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 text-center max-w-md w-11/12 mx-4">
+            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ready to Play?</h2>
+            <p class="text-slate-300 mb-6 text-lg">Memorize the cards, then press Start when you're ready to begin!</p>
+            <button id="start-game-button" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                Start Game
             </button>
         </div>
     </div>
@@ -187,6 +198,8 @@
             const nextMatchButton = document.getElementById('next-match-button');
             const movesCounter = document.getElementById('moves-counter');
             const matchesCounter = document.getElementById('matches-counter');
+            const startModal = document.getElementById('start-modal');
+            const startGameButton = document.getElementById('start-game-button');
 
             const cardPairs = [
                 { 
@@ -212,7 +225,7 @@
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="ccc">', 
                     pairId: 'item3',
-                    matchInfo: { image: 'DNEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="CCC">', 
@@ -311,10 +324,12 @@
                 movesCounter.textContent = moves;
                 matchesCounter.textContent = `${matchesFound} / ${cardsArray.length / 2}`;
                 shuffle(cardsArray);
+                lockBoard = true; // Lock board during preview
 
                 cardsArray.forEach((cardData, index) => {
                     const card = document.createElement('div');
-                    card.classList.add('card', 'aspect-square', 'w-full', 'cursor-pointer', 'perspective');
+                    // 1. Add 'flipped' class initially to show all cards
+                    card.classList.add('card', 'aspect-square', 'w-full', 'cursor-pointer', 'perspective', 'flipped');
                     card.dataset.pairId = cardData.pairId;
                     card.dataset.index = index;
                     card.innerHTML = `
@@ -330,6 +345,11 @@
                     gameBoard.appendChild(card);
                     card.addEventListener('click', flipCard);
                 });
+
+                // 1. Show the start modal after 3 seconds
+                setTimeout(() => {
+                    startModal.classList.remove('hidden');
+                }, 3000);
             }
 
             function flipCard() {
@@ -397,13 +417,27 @@
                 winScreen.classList.add('hidden');
                 gameArea.classList.remove('hidden');
                 matchModal.classList.add('hidden');
+                startModal.classList.add('hidden'); // Ensure start modal is hidden on reset
                 resetBoardState();
                 createBoard();
+            }
+
+            // 1. Function to start the game after preview
+            function startGame() {
+                startModal.classList.add('hidden');
+                const allCards = document.querySelectorAll('.card');
+                allCards.forEach(card => card.classList.remove('flipped'));
+                
+                // Unlock the board after the flip animation finishes
+                setTimeout(() => {
+                    lockBoard = false;
+                }, 600);
             }
             
             resetButton.addEventListener('click', resetGame);
             playAgainButton.addEventListener('click', resetGame);
             nextMatchButton.addEventListener('click', closeMatchModal);
+            startGameButton.addEventListener('click', startGame);
             
             createBoard();
         });
