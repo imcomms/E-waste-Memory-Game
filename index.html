@@ -70,11 +70,11 @@
         /* 2. Default background for mobile */
         #game-container {
             background-image: 
-                url('Asset 3.png'), 
-                linear-gradient(to top right, #06b6d4, #0369a1);
-            background-size: contain, cover; 
-            background-position: top, center;
-            background-repeat: no-repeat, no-repeat;
+                url('Asset 3.png');
+            background-color: #f5f3e2;
+            background-size: contain; 
+            background-position: top;
+            background-repeat: no-repeat;
         }
 
         /* 2. Wider background for laptop/large screens (1024px and up) */
@@ -82,9 +82,8 @@
             #game-container {
                 /* CUSTOMIZATION: Change the WIDE background image URL for large screens below */
                 background-image: 
-                    url('Asset 7.png'), 
-                    linear-gradient(to top right, #06b6d4, #0369a1);
-                background-position: top, center;
+                    url('Asset 7.png');
+                background-position: top;
             }
         }
     </style>
@@ -105,7 +104,7 @@
             <!-- 3. Text Box (75% on mobile, centered on large screens) -->
             <div class="w-4/5 text-left relative lg:w-full lg:text-center">
                 <h1 class="text-4xl lg:text-5xl font-bold text-neutral-50">Match It Right!</h1>
-                <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">Play the E-Waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match gadgets and discover why recycling them matters.</p>
+                <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">E-Waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match the e-waste and discover why proper recycling matters.</p>
                 <div class="grid grid-cols-2 grid-rows-1 mt-1 flex flex-row items-start gap-1 lg:mt-3 lg:flex-row lg:inline-flex lg:gap-20">
 
                     <p class="text-slate-950 font-bold lg:text-xl mt-2 bg-neutral-50 w-4/5 lg:w-full lg:px-4 text-center rounded-lg shadow-lg whitespace-nowrap"><span class="font-bold text-slate-950" id="moves-counter">0</span> Moves</p>
@@ -124,7 +123,7 @@
             <div id="game-area" class="w-full flex flex-col items-center justify-center">
                 <!-- 1. Game board with 4 columns on mobile, 5 on large screens -->
                 <main id="game-board" class="lg:mt-4 w-full max-w-3xl lg:max-w-xl grid grid-cols-4 lg:grid-cols-5 gap-2"></main>
-                <button id="reset-button" class="mt-8 lg:mt-6 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                <button id="reset-button" class="mt-8 lg:mt-6 bg-[#d2e178] hover:bg-[#b5c64e] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
                     Reset Game
                 </button>
             </div>
@@ -140,6 +139,8 @@
                     </button>
                 </div>
             </div>
+            <!-- Countdown Timer -->
+            <div id="countdown-timer" class="hidden absolute inset-0 flex items-center justify-center text-9xl font-bold text-white pointer-events-none z-20 rounded-md"></div>
         </div>
     </div>
 
@@ -148,18 +149,18 @@
         <div class="bg-neutral-50 rounded-lg shadow-2xl p-8 text-center max-w-md w-10/12 mx-4">
             <img id="match-modal-image" src="" alt="Match Success" class="w-40 h-40 object-cover rounded-lg mx-auto mb-4">
             <p id="match-modal-text" class="text-slate-950 mb-6 text-lg"></p>
-            <button id="next-match-button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg">
+            <button id="next-match-button" class="bg-[#d2e178] hover:bg-[#b5c64e] text-white font-bold py-2 px-6 rounded-lg">
                 Next
             </button>
         </div>
     </div>
 
         <!-- 1. Pop-up Box for Starting the Game -->
-    <div id="start-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 text-center max-w-md w-11/12 mx-4">
-            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ready to Play?</h2>
-            <p class="text-slate-300 mb-6 text-lg">Memorize the cards, then press Start when you're ready to begin!</p>
-            <button id="start-game-button" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+    <div id="start-modal" class="fixed inset-0 bg-opacity-80 flex items-center justify-center hidden z-50">
+        <div class="bg-[#f7f5e0] rounded-lg shadow-2xl p-8 text-center max-w-md w-11/12 mx-4">
+            <h2 class="text-3xl font-bold text-[#d2e178] mb-4">Ready to Play?</h2>
+
+            <button id="start-game-button" class="bg-[#d2e178] hover:bg-[#b5c64e] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
                 Start Game
             </button>
         </div>
@@ -200,67 +201,68 @@
             const matchesCounter = document.getElementById('matches-counter');
             const startModal = document.getElementById('start-modal');
             const startGameButton = document.getElementById('start-game-button');
+            const countdownTimer = document.getElementById('countdown-timer');
 
             const cardPairs = [
                 { 
                     value: '<img src="NEA_IEWD_Gamification-01.jpg" alt="aaa">', 
                     pairId: 'item1',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-01.jpg', text: 'Only small household batteries (AA, AAA, AAAA, D, C, 9V & button cells) can go into the Batteries Bin.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-01.jpg', text: 'Small household batteries can go into the Batteries Bin.' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-01.jpg" alt="AAA">', 
                     pairId: 'item1',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-01.jpg', text: 'Only small household batteries (AA, AAA, AAAA, D, C, 9V & button cells) can go into the Batteries Bin.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-01.jpg', text: 'Small household batteries can go into the Batteries Bin.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-02.jpg" alt="bbb">', 
                     pairId: 'item2',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells).' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries.' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-02.jpg" alt="BBB">', 
                     pairId: 'item2',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries (AA, AAA, AAAA, D, C, 9V & button cells).' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-02.jpg', text: 'The Batteries & Bulbs Bin accepts used light bulbs and small household batteries.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="ccc">', 
                     pairId: 'item3',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If not recycled properly, they risk contaminating the environment.' }
                 }, 
                 { 
                     value: '<img src="NEA_IEWD_Gamification-03.jpg" alt="CCC">', 
                     pairId: 'item3',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If thrown away, they risk contaminating the environment.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-03.jpg', text: 'Bulbs may contain mercury. If not recycled properly, they risk contaminating the environment.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-04.jpg" alt="ddd">', 
                     pairId: 'item4',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones).' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-04.jpg" alt="ddd">', 
                     pairId: 'item4',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones & TVs) that fit through its slot.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-04.jpg', text: 'Use the 3-in-1 bin for small batteries, bulbs, and ICT gadgets (like laptops, phones).' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-05.jpg" alt="eee">', 
                     pairId: 'item5',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances that can pollute the environment if disposed of improperly.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-05.jpg" alt="EEE">', 
                     pairId: 'item5',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-05.jpg', text: 'Laptops contain batteries and circuit boards with toxic substances that can pollute the environment if disposed of improperly.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-06.jpg" alt="fff">', 
                     pairId: 'item6',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling them saves precious resources.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-06.jpg" alt="FFF">', 
                     pairId: 'item6',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling millions of them saves tonnes of precious resources.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-06.jpg', text: 'Old phones are packed with gold, silver and copper. Recycling them saves precious resources.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-07.jpg" alt="ggg">', 
@@ -275,32 +277,32 @@
                 { 
                     value: '<img src="NEA_IEWD_Gamification-08.jpg" alt="hhh">', 
                     pairId: 'item8',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Batteries contain heavy metals that can pollute the environment.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-08.jpg" alt="HHH">', 
                     pairId: 'item8',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Even small batteries can leak acid and heavy metals into soil and water.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-08.jpg', text: 'Batteries contain heavy metals that can pollute the environment.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-09.jpg" alt="iii">', 
                     pairId: 'item9',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Televisions contain precious metals like silver, gold, palladium that can be reused in making new electronics.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-09.jpg" alt="III">', 
                     pairId: 'item9',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Broken screens can release lead and mercury which are dangerous to people and nature.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-09.jpg', text: 'Televisions contain precious metals like silver, gold, palladium that can be reused in making new electronics.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-10.jpg" alt="jjj">', 
                     pairId: 'item10',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks are portable batteries that pose fire risks if disposed of improperly.' }
                 },
                 { 
                     value: '<img src="NEA_IEWD_Gamification-10.jpg" alt="JJJ">', 
                     pairId: 'item10',
-                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks contain lithium batteries that can spark fire if trashed.' }
+                    matchInfo: { image: 'NEA_IEWD_Gamification-10.jpg', text: 'Power banks are portable batteries that pose fire risks if disposed of improperly.' }
                 },
             ];
 
@@ -328,16 +330,16 @@
 
                 cardsArray.forEach((cardData, index) => {
                     const card = document.createElement('div');
-                    // 1. Add 'flipped' class initially to show all cards
-                    card.classList.add('card', 'aspect-square', 'w-full', 'cursor-pointer', 'perspective', 'flipped');
+                    // Cards start unflipped
+                    card.classList.add('card', 'aspect-square', 'w-full', 'cursor-pointer', 'perspective');
                     card.dataset.pairId = cardData.pairId;
                     card.dataset.index = index;
                     card.innerHTML = `
                         <div class="card-inner">
                             <div class="card-back bg-green-700 hover:bg-green-800 transition-colors overflow-hidden">
-                                <img src="NEA_IEWD_Gamification.jpg" class="w-full h-full object-cover">
+                                <img src="NEA_IEWD_Gamification-11.jpg" class="w-full h-full object-cover">
                             </div>
-                            <div class="card-front bg-sky-300 flex items-center justify-center p-1 rounded-md">
+                            <div class="card-front bg-[#d2e178] flex items-center justify-center p-1 rounded-md">
                                 ${cardData.value}
                             </div>
                         </div>
@@ -346,10 +348,8 @@
                     card.addEventListener('click', flipCard);
                 });
 
-                // 1. Show the start modal after 3 seconds
-                setTimeout(() => {
-                    startModal.classList.remove('hidden');
-                }, 3000);
+                // Show the start modal immediately
+                startModal.classList.remove('hidden');
             }
 
             function flipCard() {
@@ -414,6 +414,8 @@
             }
 
             function resetGame() {
+                clearInterval(countdownInterval); // Clear countdown if it's running
+                countdownTimer.classList.add('hidden');
                 winScreen.classList.add('hidden');
                 gameArea.classList.remove('hidden');
                 matchModal.classList.add('hidden');
@@ -426,12 +428,36 @@
             function startGame() {
                 startModal.classList.add('hidden');
                 const allCards = document.querySelectorAll('.card');
-                allCards.forEach(card => card.classList.remove('flipped'));
+                allCards.forEach(card => card.classList.add('flipped'));
                 
-                // Unlock the board after the flip animation finishes
-                setTimeout(() => {
-                    lockBoard = false;
-                }, 600);
+                // Start the countdown
+                startCountdown();
+            }
+
+            function startCountdown() {
+                let countdownValue = 5; // CUSTOMIZATION: Change countdown time here (in seconds)
+                countdownTimer.textContent = countdownValue;
+                countdownTimer.classList.remove('hidden');
+
+                countdownInterval = setInterval(() => {
+                    countdownValue--;
+                    if (countdownValue > 0) {
+                        countdownTimer.textContent = countdownValue;
+                    } else {
+                        clearInterval(countdownInterval);
+                        countdownTimer.textContent = '';
+                        countdownTimer.classList.add('hidden');
+                        
+                        // Flip cards back
+                        const allCards = document.querySelectorAll('.card');
+                        allCards.forEach(card => card.classList.remove('flipped'));
+                        
+                        // Unlock board after flip animation
+                        setTimeout(() => {
+                            lockBoard = false;
+                        }, 600); // This should match the CSS transition duration
+                    }
+                }, 1000);
             }
             
             resetButton.addEventListener('click', resetGame);
@@ -444,4 +470,3 @@
     </script>
 </body>
 </html>
-
