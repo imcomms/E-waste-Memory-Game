@@ -105,10 +105,10 @@
             <div class="hidden lg:block w-32"></div>
         
             <!-- 3. Text Box (75% on mobile, centered on large screens) -->
-            <div class="w-4/5 text-left relative lg:w-full lg:text-center">
+            <div class="w-4/5 text-left relative -left-10 lg:w-auto lg:left-0 lg:-top-16 lg:text-center">
                 <!-- 2. "National Environment Agency" text added for mobile only -->
                 <p class="text-xl font-bold text-neutral-50 lg:hidden">National Environment Agency</p>
-                <h1 class="text-4xl lg:text-5xl font-bold text-neutral-50">Match it Right!</h1>
+                <h1 class="text-4xl lg:text-4xl font-bold text-neutral-50">Match it Right!</h1>
                 <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">E-waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match the e-waste and discover why proper recycling matters.</p>
                 <div class="grid grid-cols-2 grid-rows-1 mt-1 flex flex-row items-start gap-1 lg:mt-3 lg:flex-row lg:inline-flex lg:gap-20">
 
@@ -124,7 +124,7 @@
         </header>
 
         <!-- Game section -->
-        <div id="bottom-section" class="w-full flex-grow flex flex-col items-center justify-center">
+        <div id="bottom-section" class="w-full lg:-top-20 flex-grow flex flex-col items-center justify-center">
             <div id="game-area" class="w-full flex flex-col items-center justify-center">
                 <!-- 1. Game board with 4 columns on mobile, 5 on large screens -->
                 <main id="game-board" class="lg:mt-4 w-full max-w-3xl lg:max-w-xl grid grid-cols-4 lg:grid-cols-5 gap-2"></main>
@@ -134,8 +134,8 @@
             </div>
 
             <!-- Win Screen -->
-            <div id="win-screen" class="hidden w-full flex flex-col items-center justify-center text-center">
-                <img src="Asset 6.png" alt="Victory" class="w-3/4 lg:h-3/4 lg:w-fit max-w-sm mb-4 lg:mb-0 rounded-lg border-none">
+            <div id="win-screen" class="hidden w-full -top-10 flex flex-col items-center justify-center text-center">
+                <img src="Asset 6.png" alt="Victory" class="w-3/4 lg:-top-10 lg:h-72 lg:w-fit max-w-sm mb-8 lg:mb-8 rounded-lg border-none">
                 <div class="bg-neutral-50 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 lg:p-6 w-full lg:w-2/3">
                     <h2 class="text-3xl font-bold text-slate-950 mb-4 lg:mb-2">🧩 Well Done! 🌍</h2>
                     <p class="text-slate-950 mb-2">You've matched all the cards correctly!<p class = "text-slate-950 mb-2 break-normal">By learning the right way to recycle e-waste, you're helping to protect our environment and give old electronics a new life.🌱<p class = "text-slate-950 mb-2 break-normal">Remember: Use the right bins or collection services for your e-waste. Every small action make a big difference!</p>
