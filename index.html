@@ -96,7 +96,7 @@
                     lg:max-w-full lg:h-screen lg:overflow-hidden lg:p-8 lg:justify-center">
 
         <!-- Header with responsive layout -->
-        <header class="w-full flex items-center justify-center p-4 flex-shrink-0 rounded-xl relative overflow-hidden lg:bg-transparent lg:shadow-none lg:-top-10 lg:py-0 lg:gap-16" 
+        <header class="w-full flex items-center justify-center p-4 flex-shrink-0 rounded-xl relative overflow-hidden lg:bg-transparent lg:shadow-none lg:-top-10 lg:py-0 lg:gap-8" 
         >
             <div class="absolute inset-x-0 top-0 bg-black opacity-30 lg:hidden"></div> <!-- Overlay for mobile header only -->
             
@@ -104,7 +104,7 @@
             <div class="hidden lg:block w-32"></div>
 
             <!-- 3. Text Box (75% on mobile, centered on large screens) -->
-            <div class="w-4/5 text-left relative -left-10 lg:left-0 lg:w-64">
+            <div class="w-4/5 text-left relative -left-10 lg:-left-2 lg:w-64">
                 <!-- 2. "National Environment Agency" text added for mobile only -->
                 <p class="text-lg font-bold text-neutral-50 lg:hidden">National Environment Agency</p>
                 <h1 class="text-4xl lg:text-4xl font-bold text-neutral-50">Match it Right!</h1>
@@ -117,13 +117,13 @@
             </div>
             
             <!-- 3. Logo (hidden on mobile, next to text on large screens) -->
-            <div class="hidden lg:flex justify-center items-center relative">
+            <div class="hidden lg:flex justify-center items-center relative lg:-top-4">
                 <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain lg:h-64 lg:w-64">
             </div>
         </header>
 
         <!-- Game section -->
-        <div id="bottom-section" class="w-full flex-grow flex flex-col items-center justify-center">
+        <div id="bottom-section" class="w-full flex-grow flex flex-col items-center justify-center lg:-top-10">
             <div id="game-area" class="w-full flex flex-col items-center justify-center">
                 <!-- 1. Game board with 4 columns on mobile, 5 on large screens -->
                 <main id="game-board" class="lg:mt-4 w-full max-w-3xl lg:max-w-xl grid grid-cols-4 lg:grid-cols-5 gap-2"></main>
