@@ -90,20 +90,19 @@
 </head>
 <body class="bg-white">
 
-    <!-- Main container with responsive classes -->
+            <!-- Main container with responsive classes -->
     <div id="game-container" 
          class="text-white min-h-screen flex flex-col items-center p-4 max-w-md mx-auto shadow-2xl relative overflow-y-auto 
                     lg:max-w-full lg:h-screen lg:overflow-hidden lg:p-8 lg:justify-center">
 
         <!-- Header with responsive layout -->
-        <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl relative overflow-hidden
-                       lg:bg-transparent lg:shadow-none lg:py-0 lg:gap-8" 
+        <header class="w-full flex items-center justify-center p-4 flex-shrink-0 rounded-xl relative overflow-hidden lg:bg-transparent lg:shadow-none lg:py-0 lg:gap-8" 
         >
             <div class="absolute inset-x-0 top-0 bg-black opacity-30 lg:hidden"></div> <!-- Overlay for mobile header only -->
-
+            
             <!-- Invisible spacer for laptop view to balance the logo and center the text -->
             <div class="hidden lg:block w-32"></div>
-        
+
             <!-- 3. Text Box (75% on mobile, centered on large screens) -->
             <div class="w-4/5 text-left relative -left-10 lg:w-auto lg:left-0 lg:-top-16 lg:text-center">
                 <!-- 2. "National Environment Agency" text added for mobile only -->
@@ -117,7 +116,7 @@
                 </div>
             </div>
             
-            <!-- 3. Logo (25% on mobile, top-right corner on large screens) -->
+            <!-- 3. Logo (hidden on mobile, next to text on large screens) -->
             <div class="hidden lg:flex justify-center items-center lg:-top-16  relative">
                 <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain lg:h-72 lg:w-72">
             </div>
