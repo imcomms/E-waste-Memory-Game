@@ -97,14 +97,19 @@
 
         <!-- Header with responsive layout -->
         <header class="w-full flex items-center justify-between p-4 flex-shrink-0 rounded-xl relative overflow-hidden
-                       lg:bg-transparent lg:shadow-none lg:py-0" 
+                       lg:bg-transparent lg:shadow-none lg:py-0 lg:gap-8" 
         >
             <div class="absolute inset-x-0 top-0 bg-black opacity-30 lg:hidden"></div> <!-- Overlay for mobile header only -->
-            
+
+            <!-- Invisible spacer for laptop view to balance the logo and center the text -->
+            <div class="hidden lg:block w-32"></div>
+        
             <!-- 3. Text Box (75% on mobile, centered on large screens) -->
             <div class="w-4/5 text-left relative lg:w-full lg:text-center">
-                <h1 class="text-4xl lg:text-5xl font-bold text-neutral-50">Match It Right!</h1>
-                <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">E-Waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match the e-waste and discover why proper recycling matters.</p>
+                <!-- 2. "National Environment Agency" text added for mobile only -->
+                <p class="text-xl font-bold text-neutral-50 lg:hidden">National Environment Agency</p>
+                <h1 class="text-4xl lg:text-5xl font-bold text-neutral-50">Match it Right!</h1>
+                <p class="text-neutral-50 mt-1 text-base lg:text-lg break-normal">E-waste Memory Game!<p class = "text-neutral-50 mt-1 text-base break-normal leading-5">Match the e-waste and discover why proper recycling matters.</p>
                 <div class="grid grid-cols-2 grid-rows-1 mt-1 flex flex-row items-start gap-1 lg:mt-3 lg:flex-row lg:inline-flex lg:gap-20">
 
                     <p class="text-slate-950 font-bold lg:text-xl mt-2 bg-neutral-50 w-4/5 lg:w-full lg:px-4 text-center rounded-lg shadow-lg whitespace-nowrap"><span class="font-bold text-slate-950" id="moves-counter">0</span> Moves</p>
@@ -113,8 +118,8 @@
             </div>
             
             <!-- 3. Logo (25% on mobile, top-right corner on large screens) -->
-            <div class="w-1/5 flex justify-end relative -top-10 -right-2 lg:absolute lg:-top-10 lg:right-10 lg:w-auto lg:p-4">
-                <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain lg:h-36 lg:w-36">
+            <div class="hidden lg:flex justify-center items-center lg:-top-16  relative">
+                <img src="NEA logo white.png" alt="Game Logo" class="h-20 w-20 object-contain lg:h-72 lg:w-72">
             </div>
         </header>
 
